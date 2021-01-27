@@ -1,0 +1,102 @@
+from google.colab import drive
+drive.mount('/content/drive')
+#importing google drive
+
+!mkdir darknet
+!cp -r '/content/drive/My Drive/project_folder2' '/content/darknet'
+
+#copying drive storage to virtual storage
+#darknet already installed with dataset from open images dataset
+
+#download files
+def imShow(path):
+  import cv2
+  import matplotlib.pyplot as plt
+  %matplotlib inline
+
+  image = cv2.imread(path)
+  height, width = image.shape[:2]
+  resized_image = cv2.resize(image,(3*width, 3*height), interpolation = cv2.INTER_CUBIC)
+
+  fig = plt.gcf()
+  fig.set_size_inches(18, 10)
+  plt.axis("off")
+  #plt.rcParams['figure.figsize'] = [10, 5]
+  plt.imshow(cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB))
+  plt.show()
+  
+  
+def upload():
+  from google.colab import files
+  uploaded = files.upload() 
+  for name, data in uploaded.items():
+    with open(name, 'wb') as f:
+      f.write(data)
+      print ('saved file', name)
+def download(path):
+  from google.colab import files
+  files.download(path)
+
+
+# Execute darknet using YOLOv3 model with pre-trained weights to detect objects on 'person.jpg'
+!./darknet detect cfg/yolov3.cfg yolov3.weights data/person.jpg -dont-show
+
+# Show the result using the helper imgShow()
+imShow('predictions.jpg')
+
+!./darknet detect cfg/yolov3.cfg yolov3.weights data/eagle.jpg
+#executing YOLOv3 implementation for and image of and eagle
+
+imShow('predictions.jpg')
+#showing outputs
+
+%cd ..
+
+#!git clone https://github.com/EscVM/OIDv4_ToolKit.git
+
+%cd /content/darknet/OIDv4_ToolKit/
+
+pip install -r requirements.txt
+
+%cd /content/darknet/OIDv4_ToolKit/
+!python3 main.py
+
+!mv '/content/darknet/data/obj' '/content/darknet/trash'
+
+!python3 main.py downloader --classes Fish Shark --type_csv train --limit 1000 --multiclass 1
+
+%cd /content/darknet/OIDv4_ToolKit/
+
+!python convert_annotations.py
+
+
+
+!mv '/content/darknet/OIDv4_ToolKit/OID/Dataset/train/Fish_Shark/Label' '/content/sample_data/trash'
+
+!mv  '/content/darknet/OIDv4_ToolKit/OID/Dataset/train/Fish_Shark/' '/content/darknet/data/obj'
+
+%cd /content/darknet/data/obj/Fish_Shark
+
+mv * '/content/darknet/data/obj'
+
+#delete Fish_Shark and label
+
+%cd '/content/darknet'
+
+
+
+#train
+!./darknet detector train data/obj.data cfg/yolov3-custom.cfg backup/yolov3-custom_1000.weights -dont_show
+
+!./darknet detector test data/obj.data cfg/yolov3-custom-test.cfg backup/yolov3-custom_1000.weights fish.jpg 
+from IPython.display import Image
+Image('predictions.jpg')
+
+#Sample2
+!./darknet detector test data/obj.data cfg/yolov3-custom-test.cfg backup/yolov3-custom_1000.weights fish2.jpg 
+from IPython.display import Image
+Image('predictions.jpg')
+
+!./darknet detector demo data/obj.data cfg/yolov3-custom-test.cfg backup/yolov3-custom_1000.weights Test_ROV_video_h264_decim.mp4 -out_filename results.avi -dont_show
+#Executing code for a video
+
