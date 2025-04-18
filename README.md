@@ -1,6 +1,6 @@
 # Yolov3-Underwater-Detection
 
-The Project is Design to run using files stored in My google drive. To run on your own personal Drive, Please refer to Setting Up to clone darknet as well as to download the training set
+The Project is somewhat close to my heart, it was my final year project. I trained the model on dataset I received from National Oceanic and Atmospheric Administration-NOAA  (https://coast.noaa.gov/states/hawaii.html). This uses the YOLO v3 model which is a real-time object detection algorithm that uses a deep convolutional neural network (CNN). Big thanks to PJreddy, whose setup guide is instrumental. Details of this project can be found on the report. 
 
 
 For more info regarding the project itself, kindly refer to the project report
