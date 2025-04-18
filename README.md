@@ -5,7 +5,7 @@ The Project is somewhat close to my heart, it was my final year project. I train
 
 
 
-Big thanks to PJreddy, whose setup guide is instrumental. Details of this project can be found on the report. 
+Big thanks to PJreddy, whose setup guide is instrumental, I have added this to the repo. Details of this project can be found on the report. 
 
 
 For more info regarding the project itself, kindly refer to the project report
